@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -800,9 +801,9 @@ export function JobRequirementsForm({ onSubmit }: JobRequirementsFormProps) {
         </CardFooter>
       </form>
 
-      {editing && (
+      {editing && typeof window !== 'undefined' && createPortal(
         <div 
-          className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50 overflow-y-auto"
+          className="fixed inset-0 bg-black/40 flex items-start justify-center p-4 z-[9999] overflow-y-auto"
           onClick={(e) => {
             // Close modal when clicking outside (on the overlay)
             if (e.target === e.currentTarget) {
@@ -811,7 +812,7 @@ export function JobRequirementsForm({ onSubmit }: JobRequirementsFormProps) {
           }}
         >
           <div 
-            className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-4xl p-6 space-y-4 border border-slate-200 dark:border-slate-700 max-h-[85vh] overflow-y-auto"
+            className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-4xl p-6 space-y-4 border border-slate-200 dark:border-slate-700 max-h-[90vh] overflow-y-auto mt-4"
             onClick={(e) => {
               // Prevent closing when clicking inside the modal content
               e.stopPropagation()
@@ -1155,7 +1156,8 @@ export function JobRequirementsForm({ onSubmit }: JobRequirementsFormProps) {
               <Button onClick={() => saveTemplate()} className="bg-gradient-to-r from-indigo-500 to-purple-500">Save</Button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Removed separate Add Role modal */}
